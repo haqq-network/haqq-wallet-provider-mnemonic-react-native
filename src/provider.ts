@@ -216,4 +216,16 @@ export class ProviderMnemonicReactNative extends ProviderBase<ProviderMnemonicOp
 
     return response
   }
+
+  async isMnemonicSaved() {
+    const storedKeys = await EncryptedStorage.getItem(`${ITEM_KEY}_saved`);
+    const accounts = JSON.parse(storedKeys ?? '[]') as string[]
+    return accounts.includes(this.getIdentifier().toLowerCase())
+  }
+
+  async setMnemonicSaved() {
+    const storedKeys = await EncryptedStorage.getItem(`${ITEM_KEY}_saved`);
+    const accounts = JSON.parse(storedKeys ?? '[]') as string[]
+    await EncryptedStorage.setItem(`${ITEM_KEY}_saved`, JSON.stringify(accounts.concat(this.getIdentifier().toLowerCase())));
+  }
 }
