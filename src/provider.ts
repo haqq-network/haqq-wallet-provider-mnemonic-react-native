@@ -20,9 +20,9 @@ import {
   sign
 } from '@haqq/provider-web3-utils'
 import EncryptedStorage from 'react-native-encrypted-storage';
+import {ITEM_KEY} from './constants';
 import {getMnemonic} from './get-mnemonic';
 import {ProviderMnemonicOptions} from './types';
-import {ITEM_KEY} from './constants';
 
 export class ProviderMnemonicReactNative extends ProviderBase<ProviderMnemonicOptions> implements ProviderInterface {
   static async initialize(mnemonic: string | null, getPassword: () => Promise<string>, options: Omit<ProviderBaseOptions, 'getPassword'>): Promise<ProviderMnemonicReactNative> {
@@ -45,11 +45,21 @@ export class ProviderMnemonicReactNative extends ProviderBase<ProviderMnemonicOp
       privateData
     );
 
+    const accounts = await ProviderMnemonicReactNative.getAccounts();
+
+    await EncryptedStorage.setItem(`${ITEM_KEY}_accounts`, JSON.stringify(accounts.concat(address.toLowerCase())));
+
     return new ProviderMnemonicReactNative({
       ...options,
       getPassword,
       account: address.toLowerCase()
     })
+  }
+
+  static async getAccounts() {
+    const storedKeys = await EncryptedStorage.getItem(`${ITEM_KEY}_accounts`);
+
+    return JSON.parse(storedKeys ?? '[]') as string[]
   }
 
   async updatePin(pin: string) {
