@@ -1,1 +1,1 @@
-# Base provider for path
+# Provider for mnemonic on react-native platform
