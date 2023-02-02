@@ -228,4 +228,9 @@ export class ProviderMnemonicReactNative extends ProviderBase<ProviderMnemonicOp
     const accounts = JSON.parse(storedKeys ?? '[]') as string[]
     await EncryptedStorage.setItem(`${ITEM_KEY}_saved`, JSON.stringify(accounts.concat(this.getIdentifier().toLowerCase())));
   }
+
+  async getMnemonicPhrase() {
+    const decryptedData = await getMnemonic(this._options.account, this._options.getPassword)
+    return decryptedData.mnemonic
+  }
 }
