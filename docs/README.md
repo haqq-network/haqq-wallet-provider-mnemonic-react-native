@@ -1,4 +1,4 @@
-@haqq/provider-mnemonic-react-native - v0.0.5 / [Exports](modules.md)
+@haqq/provider-mnemonic-react-native / [Exports](modules.md)
 
 # Provider for mnemonic on react-native platform
 

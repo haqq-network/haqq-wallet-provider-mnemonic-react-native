@@ -1,4 +1,4 @@
-[@haqq/provider-mnemonic-react-native - v0.0.5](../README.md) / [Exports](../modules.md) / ProviderMnemonicReactNative
+[@haqq/provider-mnemonic-react-native - v0.0.7](../README.md) / [Exports](../modules.md) / ProviderMnemonicReactNative
 
 # Class: ProviderMnemonicReactNative
 
@@ -63,6 +63,7 @@
 - [on](ProviderMnemonicReactNative.md#on-1)
 - [once](ProviderMnemonicReactNative.md#once-1)
 - [setMaxListeners](ProviderMnemonicReactNative.md#setmaxlisteners-1)
+- [shareToSeed](ProviderMnemonicReactNative.md#sharetoseed)
 
 ## Constructors
 
@@ -110,7 +111,7 @@ ProviderBase.captureRejectionSymbol
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:328
+node_modules/@types/node/events.d.ts:322
 
 ___
 
@@ -126,7 +127,7 @@ ProviderBase.captureRejections
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:333
+node_modules/@types/node/events.d.ts:327
 
 ___
 
@@ -140,7 +141,7 @@ ProviderBase.defaultMaxListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:334
+node_modules/@types/node/events.d.ts:328
 
 ___
 
@@ -162,7 +163,7 @@ ProviderBase.errorMonitor
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:327
+node_modules/@types/node/events.d.ts:321
 
 ## Methods
 
@@ -184,7 +185,7 @@ ProviderBase.abort
 
 #### Defined in
 
-node_modules/@haqq/provider-base/dist/provider.d.ts:14
+node_modules/@haqq/provider-base/dist/provider.d.ts:17
 
 ___
 
@@ -219,7 +220,7 @@ ProviderBase.addListener
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:354
+node_modules/@types/node/events.d.ts:348
 
 ___
 
@@ -244,7 +245,7 @@ ProviderBase.catchError
 
 #### Defined in
 
-node_modules/@haqq/provider-base/dist/provider.d.ts:13
+node_modules/@haqq/provider-base/dist/provider.d.ts:16
 
 ___
 
@@ -266,7 +267,7 @@ ProviderBase.clean
 
 #### Defined in
 
-[src/provider.ts:81](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/aa1044b/src/provider.ts#L81)
+[src/provider.ts:105](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L105)
 
 ___
 
@@ -280,7 +281,7 @@ to each.
 Returns `true` if the event had listeners, `false` otherwise.
 
 ```js
-const EventEmitter = require('events');
+import { EventEmitter } from 'node:events';
 const myEmitter = new EventEmitter();
 
 // First listener
@@ -349,7 +350,8 @@ Returns an array listing the events for which the emitter has registered
 listeners. The values in the array are strings or `Symbol`s.
 
 ```js
-const EventEmitter = require('events');
+import { EventEmitter } from 'node:events';
+
 const myEE = new EventEmitter();
 myEE.on('foo', () => {});
 myEE.on('bar', () => {});
@@ -379,7 +381,7 @@ ProviderBase.eventNames
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:669
+node_modules/@types/node/events.d.ts:673
 
 ___
 
@@ -407,7 +409,7 @@ ProviderBase.getAccountInfo
 
 #### Defined in
 
-[src/provider.ts:97](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/aa1044b/src/provider.ts#L97)
+[src/provider.ts:121](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L121)
 
 ___
 
@@ -429,7 +431,7 @@ ProviderBase.getIdentifier
 
 #### Defined in
 
-[src/provider.ts:93](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/aa1044b/src/provider.ts#L93)
+[src/provider.ts:117](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L117)
 
 ___
 
@@ -458,7 +460,7 @@ ProviderBase.getMaxListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:526
+node_modules/@types/node/events.d.ts:525
 
 ___
 
@@ -476,7 +478,7 @@ mnemonic
 
 #### Defined in
 
-[src/provider.ts:242](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/aa1044b/src/provider.ts#L242)
+[src/provider.ts:304](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L304)
 
 ___
 
@@ -504,7 +506,7 @@ ProviderBase.getPrivateKey
 
 #### Defined in
 
-node_modules/@haqq/provider-base/dist/provider.d.ts:12
+node_modules/@haqq/provider-base/dist/provider.d.ts:15
 
 ___
 
@@ -520,15 +522,17 @@ Check is mnemonic saved
 
 #### Defined in
 
-[src/provider.ts:223](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/aa1044b/src/provider.ts#L223)
+[src/provider.ts:282](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L282)
 
 ___
 
 ### listenerCount
 
-▸ **listenerCount**(`eventName`): `number`
+▸ **listenerCount**(`eventName`, `listener?`): `number`
 
-Returns the number of listeners listening to the event named `eventName`.
+Returns the number of listeners listening for the event named `eventName`.
+If `listener` is provided, it will return how many times the listener is found
+in the list of the listeners of the event.
 
 **`Since`**
 
@@ -539,6 +543,7 @@ v3.2.0
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `eventName` | `string` \| `symbol` | The name of the event being listened for |
+| `listener?` | `Function` | The event handler function |
 
 #### Returns
 
@@ -554,7 +559,7 @@ ProviderBase.listenerCount
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:616
+node_modules/@types/node/events.d.ts:619
 
 ___
 
@@ -596,7 +601,7 @@ ProviderBase.listeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:539
+node_modules/@types/node/events.d.ts:538
 
 ___
 
@@ -631,7 +636,7 @@ ProviderBase.off
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:499
+node_modules/@types/node/events.d.ts:498
 
 ___
 
@@ -656,6 +661,7 @@ By default, event listeners are invoked in the order they are added. The`emitter
 event listener to the beginning of the listeners array.
 
 ```js
+import { EventEmitter } from 'node:events';
 const myEE = new EventEmitter();
 myEE.on('foo', () => console.log('a'));
 myEE.prependListener('foo', () => console.log('b'));
@@ -690,7 +696,7 @@ ProviderBase.on
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:385
+node_modules/@types/node/events.d.ts:380
 
 ___
 
@@ -713,6 +719,7 @@ By default, event listeners are invoked in the order they are added. The`emitter
 event listener to the beginning of the listeners array.
 
 ```js
+import { EventEmitter } from 'node:events';
 const myEE = new EventEmitter();
 myEE.once('foo', () => console.log('a'));
 myEE.prependOnceListener('foo', () => console.log('b'));
@@ -747,7 +754,7 @@ ProviderBase.once
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:414
+node_modules/@types/node/events.d.ts:410
 
 ___
 
@@ -793,7 +800,7 @@ ProviderBase.prependListener
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:634
+node_modules/@types/node/events.d.ts:637
 
 ___
 
@@ -837,7 +844,7 @@ ProviderBase.prependOnceListener
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:650
+node_modules/@types/node/events.d.ts:653
 
 ___
 
@@ -849,6 +856,7 @@ Returns a copy of the array of listeners for the event named `eventName`,
 including any wrappers (such as those created by `.once()`).
 
 ```js
+import { EventEmitter } from 'node:events';
 const emitter = new EventEmitter();
 emitter.once('log', () => console.log('log once'));
 
@@ -936,7 +944,7 @@ ProviderBase.removeAllListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:510
+node_modules/@types/node/events.d.ts:509
 
 ___
 
@@ -965,6 +973,8 @@ time of emitting are called in order. This implies that any`removeListener()` or
 will not remove them from`emit()` in progress. Subsequent events behave as expected.
 
 ```js
+import { EventEmitter } from 'node:events';
+class MyEmitter extends EventEmitter {}
 const myEmitter = new MyEmitter();
 
 const callbackA = () => {
@@ -1005,6 +1015,7 @@ event (as in the example below), `removeListener()` will remove the most
 recently added instance. In the example the `once('ping')`listener is removed:
 
 ```js
+import { EventEmitter } from 'node:events';
 const ee = new EventEmitter();
 
 function pong() {
@@ -1046,7 +1057,7 @@ ProviderBase.removeListener
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:494
+node_modules/@types/node/events.d.ts:493
 
 ___
 
@@ -1085,7 +1096,7 @@ ProviderBase.setMaxListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:520
+node_modules/@types/node/events.d.ts:519
 
 ___
 
@@ -1101,7 +1112,7 @@ Set mnemonic saved
 
 #### Defined in
 
-[src/provider.ts:232](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/aa1044b/src/provider.ts#L232)
+[src/provider.ts:291](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L291)
 
 ___
 
@@ -1124,9 +1135,13 @@ ___
 
 ProviderInterface.signPersonalMessage
 
+#### Overrides
+
+ProviderBase.signPersonalMessage
+
 #### Defined in
 
-[src/provider.ts:161](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/aa1044b/src/provider.ts#L161)
+[src/provider.ts:198](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L198)
 
 ___
 
@@ -1149,9 +1164,13 @@ ___
 
 ProviderInterface.signTransaction
 
+#### Overrides
+
+ProviderBase.signTransaction
+
 #### Defined in
 
-[src/provider.ts:127](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/aa1044b/src/provider.ts#L127)
+[src/provider.ts:156](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L156)
 
 ___
 
@@ -1175,9 +1194,13 @@ ___
 
 ProviderInterface.signTypedData
 
+#### Overrides
+
+ProviderBase.signTypedData
+
 #### Defined in
 
-[src/provider.ts:193](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/aa1044b/src/provider.ts#L193)
+[src/provider.ts:243](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L243)
 
 ___
 
@@ -1205,7 +1228,7 @@ ProviderBase.updatePin
 
 #### Defined in
 
-[src/provider.ts:65](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/aa1044b/src/provider.ts#L65)
+[src/provider.ts:86](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L86)
 
 ___
 
@@ -1219,7 +1242,7 @@ ___
 
 #### Defined in
 
-[src/provider.ts:59](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/aa1044b/src/provider.ts#L59)
+[src/provider.ts:71](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L71)
 
 ___
 
@@ -1236,19 +1259,19 @@ For `EventTarget`s this is the only way to get the event listeners for the
 event target. This is useful for debugging and diagnostic purposes.
 
 ```js
-const { getEventListeners, EventEmitter } = require('events');
+import { getEventListeners, EventEmitter } from 'node:events';
 
 {
   const ee = new EventEmitter();
   const listener = () => console.log('Events are fun');
   ee.on('foo', listener);
-  getEventListeners(ee, 'foo'); // [listener]
+  console.log(getEventListeners(ee, 'foo')); // [ [Function: listener] ]
 }
 {
   const et = new EventTarget();
   const listener = () => console.log('Events are fun');
   et.addEventListener('foo', listener);
-  getEventListeners(et, 'foo'); // [listener]
+  console.log(getEventListeners(et, 'foo')); // [ [Function: listener] ]
 }
 ```
 
@@ -1273,7 +1296,7 @@ ProviderBase.getEventListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:299
+node_modules/@types/node/events.d.ts:296
 
 ___
 
@@ -1295,7 +1318,7 @@ ___
 
 #### Defined in
 
-[src/provider.ts:28](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/aa1044b/src/provider.ts#L28)
+[src/provider.ts:27](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L27)
 
 ___
 
@@ -1306,7 +1329,8 @@ ___
 A class method that returns the number of listeners for the given `eventName`registered on the given `emitter`.
 
 ```js
-const { EventEmitter, listenerCount } = require('events');
+import { EventEmitter, listenerCount } from 'node:events';
+
 const myEmitter = new EventEmitter();
 myEmitter.on('event', () => {});
 myEmitter.on('event', () => {});
@@ -1339,7 +1363,7 @@ ProviderBase.listenerCount
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:271
+node_modules/@types/node/events.d.ts:268
 
 ___
 
@@ -1348,25 +1372,24 @@ ___
 ▸ `Static` **on**(`emitter`, `eventName`, `options?`): `AsyncIterableIterator`<`any`\>
 
 ```js
-const { on, EventEmitter } = require('events');
+import { on, EventEmitter } from 'node:events';
+import process from 'node:process';
 
-(async () => {
-  const ee = new EventEmitter();
+const ee = new EventEmitter();
 
-  // Emit later on
-  process.nextTick(() => {
-    ee.emit('foo', 'bar');
-    ee.emit('foo', 42);
-  });
+// Emit later on
+process.nextTick(() => {
+  ee.emit('foo', 'bar');
+  ee.emit('foo', 42);
+});
 
-  for await (const event of on(ee, 'foo')) {
-    // The execution of this inner block is synchronous and it
-    // processes one event at a time (even with await). Do not use
-    // if concurrent execution is required.
-    console.log(event); // prints ['bar'] [42]
-  }
-  // Unreachable here
-})();
+for await (const event of on(ee, 'foo')) {
+  // The execution of this inner block is synchronous and it
+  // processes one event at a time (even with await). Do not use
+  // if concurrent execution is required.
+  console.log(event); // prints ['bar'] [42]
+}
+// Unreachable here
 ```
 
 Returns an `AsyncIterator` that iterates `eventName` events. It will throw
@@ -1377,7 +1400,9 @@ composed of the emitted event arguments.
 An `AbortSignal` can be used to cancel waiting on events:
 
 ```js
-const { on, EventEmitter } = require('events');
+import { on, EventEmitter } from 'node:events';
+import process from 'node:process';
+
 const ac = new AbortController();
 
 (async () => {
@@ -1425,7 +1450,7 @@ ProviderBase.on
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:254
+node_modules/@types/node/events.d.ts:250
 
 ___
 
@@ -1442,31 +1467,28 @@ This method is intentionally generic and works with the web platform [EventTarge
 semantics and does not listen to the `'error'` event.
 
 ```js
-const { once, EventEmitter } = require('events');
+import { once, EventEmitter } from 'node:events';
+import process from 'node:process';
 
-async function run() {
-  const ee = new EventEmitter();
+const ee = new EventEmitter();
 
-  process.nextTick(() => {
-    ee.emit('myevent', 42);
-  });
+process.nextTick(() => {
+  ee.emit('myevent', 42);
+});
 
-  const [value] = await once(ee, 'myevent');
-  console.log(value);
+const [value] = await once(ee, 'myevent');
+console.log(value);
 
-  const err = new Error('kaboom');
-  process.nextTick(() => {
-    ee.emit('error', err);
-  });
+const err = new Error('kaboom');
+process.nextTick(() => {
+  ee.emit('error', err);
+});
 
-  try {
-    await once(ee, 'myevent');
-  } catch (err) {
-    console.log('error happened', err);
-  }
+try {
+  await once(ee, 'myevent');
+} catch (err) {
+  console.error('error happened', err);
 }
-
-run();
 ```
 
 The special handling of the `'error'` event is only used when `events.once()`is used to wait for another event. If `events.once()` is used to wait for the
@@ -1474,13 +1496,13 @@ The special handling of the `'error'` event is only used when `events.once()`is 
 special handling:
 
 ```js
-const { EventEmitter, once } = require('events');
+import { EventEmitter, once } from 'node:events';
 
 const ee = new EventEmitter();
 
 once(ee, 'error')
   .then(([err]) => console.log('ok', err.message))
-  .catch((err) => console.log('error', err.message));
+  .catch((err) => console.error('error', err.message));
 
 ee.emit('error', new Error('boom'));
 
@@ -1490,7 +1512,7 @@ ee.emit('error', new Error('boom'));
 An `AbortSignal` can be used to cancel waiting for the event:
 
 ```js
-const { EventEmitter, once } = require('events');
+import { EventEmitter, once } from 'node:events';
 
 const ee = new EventEmitter();
 const ac = new AbortController();
@@ -1535,7 +1557,7 @@ ProviderBase.once
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:194
+node_modules/@types/node/events.d.ts:189
 
 ▸ `Static` **once**(`emitter`, `eventName`, `options?`): `Promise`<`any`[]\>
 
@@ -1557,7 +1579,7 @@ ProviderBase.once
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:195
+node_modules/@types/node/events.d.ts:190
 
 ___
 
@@ -1566,10 +1588,7 @@ ___
 ▸ `Static` **setMaxListeners**(`n?`, `...eventTargets`): `void`
 
 ```js
-const {
-  setMaxListeners,
-  EventEmitter
-} = require('events');
+import { setMaxListeners, EventEmitter } from 'node:events';
 
 const target = new EventTarget();
 const emitter = new EventEmitter();
@@ -1598,4 +1617,24 @@ ProviderBase.setMaxListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:317
+node_modules/@types/node/events.d.ts:311
+
+___
+
+### shareToSeed
+
+▸ `Static` **shareToSeed**(`share`): `Promise`<`string`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `share` | `Share` |
+
+#### Returns
+
+`Promise`<`string`\>
+
+#### Defined in
+
+[src/provider.ts:77](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L77)
