@@ -1,1 +1,1 @@
-export const ITEM_KEY = 'mnemonic'
+export const ITEM_KEY = 'mnemonic';
