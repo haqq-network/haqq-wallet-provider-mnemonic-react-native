@@ -1,6 +1,6 @@
-[@haqq/provider-mnemonic-react-native - v0.0.5](README.md) / Exports
+[@haqq/provider-mnemonic-react-native - v0.0.7](README.md) / Exports
 
-# @haqq/provider-mnemonic-react-native - v0.0.5
+# @haqq/provider-mnemonic-react-native - v0.0.7
 
 ## Table of contents
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/types.ts:1](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/aa1044b/src/types.ts#L1)
+[src/types.ts:1](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/types.ts#L1)

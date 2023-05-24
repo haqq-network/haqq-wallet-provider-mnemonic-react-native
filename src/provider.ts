@@ -1,79 +1,103 @@
 import {hexConcat} from '@ethersproject/bytes';
 import {serialize, UnsignedTransaction} from '@ethersproject/transactions';
-import {encrypt} from '@haqq/encryption-react-native';
 import {
-  BytesLike,
   compressPublicKey,
   hexStringToByteArray,
   joinSignature,
+  stringToUtf8Bytes,
+  BytesLike,
   Provider as ProviderBase,
   ProviderBaseOptions,
   ProviderInterface,
-  stringToUtf8Bytes,
-  TransactionRequest
+  TransactionRequest,
 } from '@haqq/provider-base';
-import {
-  accountInfo,
-  derive,
-  generateMnemonic,
-  seedFromMnemonic,
-  sign
-} from '@haqq/provider-web3-utils'
+import {accountInfo, derive, sign} from '@haqq/provider-web3-utils';
+import {generateEntropy} from '@haqq/provider-web3-utils/src/native-modules';
+import {encryptShare, Share} from '@haqq/shared-react-native';
+import bip39 from 'bip39';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {ITEM_KEY} from './constants';
 import {getMnemonic} from './get-mnemonic';
 import {ProviderMnemonicOptions} from './types';
 
-export class ProviderMnemonicReactNative extends ProviderBase<ProviderMnemonicOptions> implements ProviderInterface {
-  static async initialize(mnemonic: string | null, getPassword: () => Promise<string>, options: Omit<ProviderBaseOptions, 'getPassword'>): Promise<ProviderMnemonicReactNative> {
+export class ProviderMnemonicReactNative
+  extends ProviderBase<ProviderMnemonicOptions>
+  implements ProviderInterface
+{
+  static async initialize(
+    mnemonic: string | null,
+    getPassword: () => Promise<string>,
+    options: Omit<ProviderBaseOptions, 'getPassword'>,
+  ): Promise<ProviderMnemonicReactNative> {
     const password = await getPassword();
 
-    const m = mnemonic === null ? await generateMnemonic() : mnemonic;
+    const entropy =
+      mnemonic === null
+        ? (await generateEntropy(16)).toString('hex')
+        : bip39.mnemonicToEntropy(mnemonic);
+    const seed = await bip39.mnemonicToSeed(bip39.entropyToMnemonic(entropy));
 
-    const seed = await seedFromMnemonic(m);
+    const privateData = await encryptShare(
+      {
+        share: entropy,
+        shareIndex: entropy.length.toString(),
+        polynomialID: '0',
+      },
+      password,
+    );
 
-    const privateData = await encrypt(password, {
-      mnemonic: m,
-      seed
-    });
-
-    const rootPrivateKey = await derive(seed, 'm');
+    const rootPrivateKey = await derive(seed.toString('hex'), 'm');
     const {address} = await accountInfo(rootPrivateKey);
 
     await EncryptedStorage.setItem(
       `${ITEM_KEY}_${address.toLowerCase()}`,
-      privateData
+      JSON.stringify(privateData),
     );
 
     const accounts = await ProviderMnemonicReactNative.getAccounts();
 
-    await EncryptedStorage.setItem(`${ITEM_KEY}_accounts`, JSON.stringify(accounts.concat(address.toLowerCase())));
+    await EncryptedStorage.setItem(
+      `${ITEM_KEY}_accounts`,
+      JSON.stringify(accounts.concat(address.toLowerCase())),
+    );
 
     return new ProviderMnemonicReactNative({
       ...options,
       getPassword,
-      account: address.toLowerCase()
-    })
+      account: address.toLowerCase(),
+    });
   }
 
   static async getAccounts() {
     const storedKeys = await EncryptedStorage.getItem(`${ITEM_KEY}_accounts`);
 
-    return JSON.parse(storedKeys ?? '[]') as string[]
+    return JSON.parse(storedKeys ?? '[]') as string[];
+  }
+
+  static async shareToSeed(share: Share) {
+    const mnemonic = bip39.entropyToMnemonic(
+      share.share.padStart(parseInt(share.shareIndex, 10), '0'),
+    );
+    const seed = await bip39.mnemonicToSeed(mnemonic);
+
+    return seed.toString('hex');
   }
 
   async updatePin(pin: string) {
     try {
-      const decryptedData = await getMnemonic(this._options.account, this._options.getPassword)
-      const privateData = await encrypt(pin, decryptedData);
+      const decryptedData = await getMnemonic(
+        this._options.account,
+        this._options.getPassword,
+      );
+      const privateData = await encryptShare(decryptedData, pin);
 
       await EncryptedStorage.setItem(
         `${ITEM_KEY}_${this.getIdentifier().toLowerCase()}`,
-        privateData
+        JSON.stringify(privateData),
       );
     } catch (e) {
       if (e instanceof Error) {
-        this.catchError(e, 'updatePin')
+        this.catchError(e, 'updatePin');
       }
     }
   }
@@ -81,27 +105,32 @@ export class ProviderMnemonicReactNative extends ProviderBase<ProviderMnemonicOp
   async clean() {
     try {
       await EncryptedStorage.removeItem(
-        `${ITEM_KEY}_${this.getIdentifier().toLowerCase()}`
+        `${ITEM_KEY}_${this.getIdentifier().toLowerCase()}`,
       );
     } catch (e) {
       if (e instanceof Error) {
-        this.catchError(e, 'clean')
+        this.catchError(e, 'clean');
       }
     }
   }
 
   getIdentifier() {
-    return this._options.account
+    return this._options.account;
   }
 
   async getAccountInfo(hdPath: string) {
-    let resp = {publicKey: '', address: ''}
+    let resp = {publicKey: '', address: ''};
     try {
-      const {seed} = await getMnemonic(this._options.account, this._options.getPassword)
+      const share = await getMnemonic(
+        this._options.account,
+        this._options.getPassword,
+      );
 
-      if (!seed) {
+      if (!share) {
         throw new Error('seed_not_found');
       }
+
+      const seed = await ProviderMnemonicReactNative.shareToSeed(share);
 
       const privateKey = await derive(seed, hdPath);
 
@@ -113,25 +142,33 @@ export class ProviderMnemonicReactNative extends ProviderBase<ProviderMnemonicOp
 
       resp = {
         publicKey: compressPublicKey(account.publicKey),
-        address: account.address
-      }
+        address: account.address,
+      };
       this.emit('getPublicKeyForHDPath', true);
     } catch (e) {
       if (e instanceof Error) {
-        this.catchError(e, 'getPublicKeyForHDPath')
+        this.catchError(e, 'getPublicKeyForHDPath');
       }
     }
-    return resp
+    return resp;
   }
 
-  async signTransaction(hdPath: string, transaction: TransactionRequest): Promise<string> {
-    let resp = ''
+  async signTransaction(
+    hdPath: string,
+    transaction: TransactionRequest,
+  ): Promise<string> {
+    let resp = '';
     try {
-      const {seed} = await getMnemonic(this._options.account, this._options.getPassword)
+      const share = await getMnemonic(
+        this._options.account,
+        this._options.getPassword,
+      );
 
-      if (!seed) {
+      if (!share) {
         throw new Error('seed_not_found');
       }
+
+      const seed = await ProviderMnemonicReactNative.shareToSeed(share);
 
       const privateKey = await derive(seed, hdPath);
 
@@ -151,21 +188,29 @@ export class ProviderMnemonicReactNative extends ProviderBase<ProviderMnemonicOp
       this.emit('signTransaction', true);
     } catch (e) {
       if (e instanceof Error) {
-        this.catchError(e, 'signTransaction')
+        this.catchError(e, 'signTransaction');
       }
     }
 
-    return resp
+    return resp;
   }
 
-  async signPersonalMessage(hdPath: string, message: BytesLike | string): Promise<string> {
-    let resp = ''
+  async signPersonalMessage(
+    hdPath: string,
+    message: BytesLike | string,
+  ): Promise<string> {
+    let resp = '';
     try {
-      const {seed} = await getMnemonic(this._options.account, this._options.getPassword)
+      const share = await getMnemonic(
+        this._options.account,
+        this._options.getPassword,
+      );
 
-      if (!seed) {
+      if (!share) {
         throw new Error('seed_not_found');
       }
+
+      const seed = await ProviderMnemonicReactNative.shareToSeed(share);
 
       const privateKey = await derive(seed, hdPath);
 
@@ -173,31 +218,45 @@ export class ProviderMnemonicReactNative extends ProviderBase<ProviderMnemonicOp
         throw new Error('private_key_not_found');
       }
 
-      const m = Array.from(typeof message === 'string' ? stringToUtf8Bytes(message) : message);
+      const m = Array.from(
+        typeof message === 'string' ? stringToUtf8Bytes(message) : message,
+      );
 
-      const hash = Buffer.from([25, 69, 116, 104, 101, 114, 101, 117, 109, 32, 83, 105, 103, 110, 101, 100, 32, 77, 101, 115, 115, 97, 103, 101, 58, 10].concat(
-        stringToUtf8Bytes(String(message.length)), m
-      )).toString('hex');
-      const signature = await sign(privateKey, hash,);
+      const hash = Buffer.from(
+        [
+          25, 69, 116, 104, 101, 114, 101, 117, 109, 32, 83, 105, 103, 110, 101,
+          100, 32, 77, 101, 115, 115, 97, 103, 101, 58, 10,
+        ].concat(stringToUtf8Bytes(String(message.length)), m),
+      ).toString('hex');
+      const signature = await sign(privateKey, hash);
       resp = '0x' + joinSignature(signature);
       this.emit('signTransaction', true);
     } catch (e) {
       if (e instanceof Error) {
-        this.catchError(e, 'signTransaction')
+        this.catchError(e, 'signTransaction');
       }
     }
 
-    return resp
+    return resp;
   }
 
-  async signTypedData(hdPath: string, domainHash: string, valueHash: string): Promise<string> {
-    let response = ''
+  async signTypedData(
+    hdPath: string,
+    domainHash: string,
+    valueHash: string,
+  ): Promise<string> {
+    let response = '';
     try {
-      const {seed} = await getMnemonic(this._options.account, this._options.getPassword)
+      const share = await getMnemonic(
+        this._options.account,
+        this._options.getPassword,
+      );
 
-      if (!seed) {
+      if (!share) {
         throw new Error('seed_not_found');
       }
+
+      const seed = await ProviderMnemonicReactNative.shareToSeed(share);
 
       const privateKey = await derive(seed, hdPath);
 
@@ -210,11 +269,11 @@ export class ProviderMnemonicReactNative extends ProviderBase<ProviderMnemonicOp
       this.emit('signTypedData', true);
     } catch (e) {
       if (e instanceof Error) {
-        this.catchError(e, 'signTypedData')
+        this.catchError(e, 'signTypedData');
       }
     }
 
-    return response
+    return response;
   }
 
   /**
@@ -222,8 +281,8 @@ export class ProviderMnemonicReactNative extends ProviderBase<ProviderMnemonicOp
    */
   async isMnemonicSaved(): Promise<boolean> {
     const storedKeys = await EncryptedStorage.getItem(`${ITEM_KEY}_saved`);
-    const accounts = JSON.parse(storedKeys ?? '[]') as string[]
-    return accounts.includes(this.getIdentifier().toLowerCase())
+    const accounts = JSON.parse(storedKeys ?? '[]') as string[];
+    return accounts.includes(this.getIdentifier().toLowerCase());
   }
 
   /**
@@ -231,8 +290,11 @@ export class ProviderMnemonicReactNative extends ProviderBase<ProviderMnemonicOp
    */
   async setMnemonicSaved() {
     const storedKeys = await EncryptedStorage.getItem(`${ITEM_KEY}_saved`);
-    const accounts = JSON.parse(storedKeys ?? '[]') as string[]
-    await EncryptedStorage.setItem(`${ITEM_KEY}_saved`, JSON.stringify(accounts.concat(this.getIdentifier().toLowerCase())));
+    const accounts = JSON.parse(storedKeys ?? '[]') as string[];
+    await EncryptedStorage.setItem(
+      `${ITEM_KEY}_saved`,
+      JSON.stringify(accounts.concat(this.getIdentifier().toLowerCase())),
+    );
   }
 
   /**
@@ -240,7 +302,12 @@ export class ProviderMnemonicReactNative extends ProviderBase<ProviderMnemonicOp
    * @returns mnemonic
    */
   async getMnemonicPhrase(): Promise<string> {
-    const decryptedData = await getMnemonic(this._options.account, this._options.getPassword)
-    return decryptedData.mnemonic
+    const share = await getMnemonic(
+      this._options.account,
+      this._options.getPassword,
+    );
+    return bip39.entropyToMnemonic(
+      share.share.padStart(parseInt(share.shareIndex, 10), '0'),
+    );
   }
 }
