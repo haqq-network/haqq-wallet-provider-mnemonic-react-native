@@ -22,8 +22,7 @@ import {ProviderMnemonicOptions} from './types';
 
 export class ProviderMnemonicReactNative
   extends ProviderBase<ProviderMnemonicOptions>
-  implements ProviderInterface
-{
+  implements ProviderInterface {
   static async initialize(
     mnemonic: string | null,
     getPassword: () => Promise<string>,
@@ -39,7 +38,7 @@ export class ProviderMnemonicReactNative
 
     const privateData = await encryptShare(
       {
-        share: entropy,
+        share: entropy.padStart(64, '0'),
         shareIndex: entropy.length.toString(),
         polynomialID: '0',
       },
@@ -75,10 +74,10 @@ export class ProviderMnemonicReactNative
   }
 
   static async shareToSeed(share: Share) {
-    const mnemonic = entropyToMnemonic(
-      share.share.padStart(parseInt(share.shareIndex, 10), '0'),
-    );
-    const seed = await mnemonicToSeed(mnemonic);
+    const entropyLength = parseInt(share.shareIndex, 10);
+    const entropy = share.share.slice(-1 * entropyLength).padStart(entropyLength, '0')
+
+    const seed = await mnemonicToSeed(entropyToMnemonic(entropy));
 
     return seed.toString('hex');
   }
