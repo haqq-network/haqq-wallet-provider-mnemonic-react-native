@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/types.ts:1](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/55489d5/src/types.ts#L1)
+[src/types.ts:1](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/3258541/src/types.ts#L1)
