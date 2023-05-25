@@ -1,6 +1,6 @@
 {
   "name": "@haqq/provider-mnemonic-react-native",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Provider for mnemonic phrase",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

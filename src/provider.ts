@@ -305,8 +305,10 @@ export class ProviderMnemonicReactNative
       this._options.account,
       this._options.getPassword,
     );
-    return entropyToMnemonic(
-      share.share.padStart(parseInt(share.shareIndex, 10), '0'),
-    );
+
+    const entropyLength = parseInt(share.shareIndex, 10);
+    const entropy = share.share.slice(-1 * entropyLength).padStart(entropyLength, '0')
+
+    return entropyToMnemonic(entropy);
   }
 }
