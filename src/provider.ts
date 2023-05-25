@@ -14,7 +14,7 @@ import {
 import {accountInfo, derive, sign} from '@haqq/provider-web3-utils';
 import {generateEntropy} from '@haqq/provider-web3-utils/src/native-modules';
 import {encryptShare, Share} from '@haqq/shared-react-native';
-import bip39 from 'bip39';
+import {entropyToMnemonic, mnemonicToEntropy, mnemonicToSeed} from 'bip39';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {ITEM_KEY} from './constants';
 import {getMnemonic} from './get-mnemonic';
@@ -34,8 +34,8 @@ export class ProviderMnemonicReactNative
     const entropy =
       mnemonic === null
         ? (await generateEntropy(16)).toString('hex')
-        : bip39.mnemonicToEntropy(mnemonic);
-    const seed = await bip39.mnemonicToSeed(bip39.entropyToMnemonic(entropy));
+        : mnemonicToEntropy(mnemonic);
+    const seed = await mnemonicToSeed(entropyToMnemonic(entropy));
 
     const privateData = await encryptShare(
       {
@@ -75,10 +75,10 @@ export class ProviderMnemonicReactNative
   }
 
   static async shareToSeed(share: Share) {
-    const mnemonic = bip39.entropyToMnemonic(
+    const mnemonic = entropyToMnemonic(
       share.share.padStart(parseInt(share.shareIndex, 10), '0'),
     );
-    const seed = await bip39.mnemonicToSeed(mnemonic);
+    const seed = await mnemonicToSeed(mnemonic);
 
     return seed.toString('hex');
   }
@@ -306,7 +306,7 @@ export class ProviderMnemonicReactNative
       this._options.account,
       this._options.getPassword,
     );
-    return bip39.entropyToMnemonic(
+    return entropyToMnemonic(
       share.share.padStart(parseInt(share.shareIndex, 10), '0'),
     );
   }

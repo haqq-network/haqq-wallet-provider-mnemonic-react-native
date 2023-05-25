@@ -1,4 +1,4 @@
-[@haqq/provider-mnemonic-react-native - v0.0.7](../README.md) / [Exports](../modules.md) / ProviderMnemonicReactNative
+[@haqq/provider-mnemonic-react-native - v0.0.8](../README.md) / [Exports](../modules.md) / ProviderMnemonicReactNative
 
 # Class: ProviderMnemonicReactNative
 
@@ -267,7 +267,7 @@ ProviderBase.clean
 
 #### Defined in
 
-[src/provider.ts:105](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L105)
+[src/provider.ts:105](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/cf44490/src/provider.ts#L105)
 
 ___
 
@@ -409,7 +409,7 @@ ProviderBase.getAccountInfo
 
 #### Defined in
 
-[src/provider.ts:121](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L121)
+[src/provider.ts:121](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/cf44490/src/provider.ts#L121)
 
 ___
 
@@ -431,7 +431,7 @@ ProviderBase.getIdentifier
 
 #### Defined in
 
-[src/provider.ts:117](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L117)
+[src/provider.ts:117](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/cf44490/src/provider.ts#L117)
 
 ___
 
@@ -478,7 +478,7 @@ mnemonic
 
 #### Defined in
 
-[src/provider.ts:304](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L304)
+[src/provider.ts:304](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/cf44490/src/provider.ts#L304)
 
 ___
 
@@ -522,7 +522,7 @@ Check is mnemonic saved
 
 #### Defined in
 
-[src/provider.ts:282](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L282)
+[src/provider.ts:282](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/cf44490/src/provider.ts#L282)
 
 ___
 
@@ -1112,7 +1112,7 @@ Set mnemonic saved
 
 #### Defined in
 
-[src/provider.ts:291](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L291)
+[src/provider.ts:291](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/cf44490/src/provider.ts#L291)
 
 ___
 
@@ -1141,7 +1141,7 @@ ProviderBase.signPersonalMessage
 
 #### Defined in
 
-[src/provider.ts:198](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L198)
+[src/provider.ts:198](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/cf44490/src/provider.ts#L198)
 
 ___
 
@@ -1170,7 +1170,7 @@ ProviderBase.signTransaction
 
 #### Defined in
 
-[src/provider.ts:156](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L156)
+[src/provider.ts:156](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/cf44490/src/provider.ts#L156)
 
 ___
 
@@ -1200,7 +1200,7 @@ ProviderBase.signTypedData
 
 #### Defined in
 
-[src/provider.ts:243](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L243)
+[src/provider.ts:243](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/cf44490/src/provider.ts#L243)
 
 ___
 
@@ -1228,7 +1228,7 @@ ProviderBase.updatePin
 
 #### Defined in
 
-[src/provider.ts:86](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L86)
+[src/provider.ts:86](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/cf44490/src/provider.ts#L86)
 
 ___
 
@@ -1242,7 +1242,7 @@ ___
 
 #### Defined in
 
-[src/provider.ts:71](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L71)
+[src/provider.ts:71](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/cf44490/src/provider.ts#L71)
 
 ___
 
@@ -1318,7 +1318,7 @@ ___
 
 #### Defined in
 
-[src/provider.ts:27](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L27)
+[src/provider.ts:27](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/cf44490/src/provider.ts#L27)
 
 ___
 
@@ -1637,4 +1637,4 @@ ___
 
 #### Defined in
 
-[src/provider.ts:77](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/1841931/src/provider.ts#L77)
+[src/provider.ts:77](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/cf44490/src/provider.ts#L77)

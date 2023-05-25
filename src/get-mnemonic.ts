@@ -1,6 +1,6 @@
 import {decrypt} from '@haqq/encryption-react-native';
 import {decryptShare, encryptShare, Share} from '@haqq/shared-react-native';
-import bip39 from 'bip39';
+import {mnemonicToEntropy} from 'bip39';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {ITEM_KEY} from './constants';
 
@@ -23,7 +23,7 @@ export async function getMnemonic(
       seed: string;
     }>(password, data);
 
-    const entropy = bip39.mnemonicToEntropy(resp.mnemonic);
+    const entropy = mnemonicToEntropy(resp.mnemonic);
 
     share = {
       share: entropy.padStart(64, '0'),
