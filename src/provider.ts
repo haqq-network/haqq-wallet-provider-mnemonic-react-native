@@ -11,7 +11,12 @@ import {
   ProviderInterface,
   TransactionRequest,
 } from '@haqq/provider-base';
-import {accountInfo, derive, sign} from '@haqq/provider-web3-utils';
+import {
+  accountInfo,
+  derive,
+  seedFromEntropy,
+  sign,
+} from '@haqq/provider-web3-utils';
 import {generateEntropy} from '@haqq/provider-web3-utils/src/native-modules';
 import {encryptShare, Share} from '@haqq/shared-react-native';
 import {entropyToMnemonic, mnemonicToEntropy, mnemonicToSeed} from 'bip39';
@@ -80,9 +85,7 @@ export class ProviderMnemonicReactNative
       .slice(-1 * entropyLength)
       .padStart(entropyLength, '0');
 
-    const seed = await mnemonicToSeed(entropyToMnemonic(entropy));
-
-    return seed.toString('hex');
+    return seedFromEntropy(Buffer.from(entropy, 'hex'));
   }
 
   async updatePin(pin: string) {

@@ -1,4 +1,4 @@
-[@haqq/provider-mnemonic-react-native - v0.0.10](../README.md) / [Exports](../modules.md) / ProviderMnemonicReactNative
+[@haqq/provider-mnemonic-react-native - v0.0.11](../README.md) / [Exports](../modules.md) / ProviderMnemonicReactNative
 
 # Class: ProviderMnemonicReactNative
 
@@ -105,13 +105,21 @@ ___
 
 ▪ `Static` `Readonly` **captureRejectionSymbol**: typeof [`captureRejectionSymbol`](ProviderMnemonicReactNative.md#capturerejectionsymbol)
 
+Value: `Symbol.for('nodejs.rejection')`
+
+See how to write a custom `rejection handler`.
+
+**`Since`**
+
+v13.4.0, v12.16.0
+
 #### Inherited from
 
 ProviderBase.captureRejectionSymbol
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:322
+node_modules/@types/node/events.d.ts:326
 
 ___
 
@@ -119,7 +127,13 @@ ___
 
 ▪ `Static` **captureRejections**: `boolean`
 
-Sets or gets the default captureRejection value for all emitters.
+Value: [boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type)
+
+Change the default `captureRejections` option on all new `EventEmitter` objects.
+
+**`Since`**
+
+v13.4.0, v12.16.0
 
 #### Inherited from
 
@@ -127,7 +141,7 @@ ProviderBase.captureRejections
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:327
+node_modules/@types/node/events.d.ts:333
 
 ___
 
@@ -135,13 +149,51 @@ ___
 
 ▪ `Static` **defaultMaxListeners**: `number`
 
+By default, a maximum of `10` listeners can be registered for any single
+event. This limit can be changed for individual `EventEmitter` instances
+using the `emitter.setMaxListeners(n)` method. To change the default
+for _all_`EventEmitter` instances, the `events.defaultMaxListeners`property can be used. If this value is not a positive number, a `RangeError`is thrown.
+
+Take caution when setting the `events.defaultMaxListeners` because the
+change affects _all_`EventEmitter` instances, including those created before
+the change is made. However, calling `emitter.setMaxListeners(n)` still has
+precedence over `events.defaultMaxListeners`.
+
+This is not a hard limit. The `EventEmitter` instance will allow
+more listeners to be added but will output a trace warning to stderr indicating
+that a "possible EventEmitter memory leak" has been detected. For any single`EventEmitter`, the `emitter.getMaxListeners()` and `emitter.setMaxListeners()`methods can be used to
+temporarily avoid this warning:
+
+```js
+import { EventEmitter } from 'node:events';
+const emitter = new EventEmitter();
+emitter.setMaxListeners(emitter.getMaxListeners() + 1);
+emitter.once('event', () => {
+  // do stuff
+  emitter.setMaxListeners(Math.max(emitter.getMaxListeners() - 1, 0));
+});
+```
+
+The `--trace-warnings` command-line flag can be used to display the
+stack trace for such warnings.
+
+The emitted warning can be inspected with `process.on('warning')` and will
+have the additional `emitter`, `type`, and `count` properties, referring to
+the event emitter instance, the event's name and the number of attached
+listeners, respectively.
+Its `name` property is set to `'MaxListenersExceededWarning'`.
+
+**`Since`**
+
+v0.11.2
+
 #### Inherited from
 
 ProviderBase.defaultMaxListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:328
+node_modules/@types/node/events.d.ts:370
 
 ___
 
@@ -149,13 +201,14 @@ ___
 
 ▪ `Static` `Readonly` **errorMonitor**: typeof [`errorMonitor`](ProviderMnemonicReactNative.md#errormonitor)
 
-This symbol shall be used to install a listener for only monitoring `'error'`
-events. Listeners installed using this symbol are called before the regular
-`'error'` listeners are called.
+This symbol shall be used to install a listener for only monitoring `'error'`events. Listeners installed using this symbol are called before the regular`'error'` listeners are called.
 
-Installing a listener using this symbol does not change the behavior once an
-`'error'` event is emitted, therefore the process will still crash if no
+Installing a listener using this symbol does not change the behavior once an`'error'` event is emitted. Therefore, the process will still crash if no
 regular `'error'` listener is installed.
+
+**`Since`**
+
+v13.6.0, v12.17.0
 
 #### Inherited from
 
@@ -163,7 +216,7 @@ ProviderBase.errorMonitor
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:321
+node_modules/@types/node/events.d.ts:319
 
 ## Methods
 
@@ -220,7 +273,7 @@ ProviderBase.addListener
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:348
+node_modules/@types/node/events.d.ts:390
 
 ___
 
@@ -267,7 +320,7 @@ ProviderBase.clean
 
 #### Defined in
 
-[src/provider.ts:107](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/3258541/src/provider.ts#L107)
+[src/provider.ts:110](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/bba94d4/src/provider.ts#L110)
 
 ___
 
@@ -338,7 +391,7 @@ ProviderBase.emit
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:610
+node_modules/@types/node/events.d.ts:652
 
 ___
 
@@ -381,7 +434,7 @@ ProviderBase.eventNames
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:673
+node_modules/@types/node/events.d.ts:715
 
 ___
 
@@ -409,7 +462,7 @@ ProviderBase.getAccountInfo
 
 #### Defined in
 
-[src/provider.ts:123](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/3258541/src/provider.ts#L123)
+[src/provider.ts:126](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/bba94d4/src/provider.ts#L126)
 
 ___
 
@@ -431,7 +484,7 @@ ProviderBase.getIdentifier
 
 #### Defined in
 
-[src/provider.ts:119](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/3258541/src/provider.ts#L119)
+[src/provider.ts:122](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/bba94d4/src/provider.ts#L122)
 
 ___
 
@@ -460,7 +513,7 @@ ProviderBase.getMaxListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:525
+node_modules/@types/node/events.d.ts:567
 
 ___
 
@@ -478,7 +531,7 @@ mnemonic
 
 #### Defined in
 
-[src/provider.ts:306](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/3258541/src/provider.ts#L306)
+[src/provider.ts:309](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/bba94d4/src/provider.ts#L309)
 
 ___
 
@@ -522,7 +575,7 @@ Check is mnemonic saved
 
 #### Defined in
 
-[src/provider.ts:284](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/3258541/src/provider.ts#L284)
+[src/provider.ts:287](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/bba94d4/src/provider.ts#L287)
 
 ___
 
@@ -559,7 +612,7 @@ ProviderBase.listenerCount
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:619
+node_modules/@types/node/events.d.ts:661
 
 ___
 
@@ -601,7 +654,7 @@ ProviderBase.listeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:538
+node_modules/@types/node/events.d.ts:580
 
 ___
 
@@ -636,7 +689,7 @@ ProviderBase.off
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:498
+node_modules/@types/node/events.d.ts:540
 
 ___
 
@@ -696,7 +749,7 @@ ProviderBase.on
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:380
+node_modules/@types/node/events.d.ts:422
 
 ___
 
@@ -754,7 +807,7 @@ ProviderBase.once
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:410
+node_modules/@types/node/events.d.ts:452
 
 ___
 
@@ -800,7 +853,7 @@ ProviderBase.prependListener
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:637
+node_modules/@types/node/events.d.ts:679
 
 ___
 
@@ -844,7 +897,7 @@ ProviderBase.prependOnceListener
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:653
+node_modules/@types/node/events.d.ts:695
 
 ___
 
@@ -904,7 +957,7 @@ ProviderBase.rawListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:569
+node_modules/@types/node/events.d.ts:611
 
 ___
 
@@ -944,7 +997,7 @@ ProviderBase.removeAllListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:509
+node_modules/@types/node/events.d.ts:551
 
 ___
 
@@ -1057,7 +1110,7 @@ ProviderBase.removeListener
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:493
+node_modules/@types/node/events.d.ts:535
 
 ___
 
@@ -1096,7 +1149,7 @@ ProviderBase.setMaxListeners
 
 #### Defined in
 
-node_modules/@types/node/events.d.ts:519
+node_modules/@types/node/events.d.ts:561
 
 ___
 
@@ -1112,7 +1165,7 @@ Set mnemonic saved
 
 #### Defined in
 
-[src/provider.ts:293](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/3258541/src/provider.ts#L293)
+[src/provider.ts:296](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/bba94d4/src/provider.ts#L296)
 
 ___
 
@@ -1141,7 +1194,7 @@ ProviderBase.signPersonalMessage
 
 #### Defined in
 
-[src/provider.ts:200](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/3258541/src/provider.ts#L200)
+[src/provider.ts:203](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/bba94d4/src/provider.ts#L203)
 
 ___
 
@@ -1170,7 +1223,7 @@ ProviderBase.signTransaction
 
 #### Defined in
 
-[src/provider.ts:158](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/3258541/src/provider.ts#L158)
+[src/provider.ts:161](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/bba94d4/src/provider.ts#L161)
 
 ___
 
@@ -1200,7 +1253,7 @@ ProviderBase.signTypedData
 
 #### Defined in
 
-[src/provider.ts:245](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/3258541/src/provider.ts#L245)
+[src/provider.ts:248](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/bba94d4/src/provider.ts#L248)
 
 ___
 
@@ -1228,7 +1281,7 @@ ProviderBase.updatePin
 
 #### Defined in
 
-[src/provider.ts:88](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/3258541/src/provider.ts#L88)
+[src/provider.ts:91](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/bba94d4/src/provider.ts#L91)
 
 ___
 
@@ -1242,7 +1295,7 @@ ___
 
 #### Defined in
 
-[src/provider.ts:71](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/3258541/src/provider.ts#L71)
+[src/provider.ts:76](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/bba94d4/src/provider.ts#L76)
 
 ___
 
@@ -1318,7 +1371,7 @@ ___
 
 #### Defined in
 
-[src/provider.ts:27](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/3258541/src/provider.ts#L27)
+[src/provider.ts:32](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/bba94d4/src/provider.ts#L32)
 
 ___
 
@@ -1637,4 +1690,4 @@ ___
 
 #### Defined in
 
-[src/provider.ts:77](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/3258541/src/provider.ts#L77)
+[src/provider.ts:82](https://github.com/haqq-network/haqq-wallet-provider-mnemonic-react-native/blob/bba94d4/src/provider.ts#L82)
