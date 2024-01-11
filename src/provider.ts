@@ -247,10 +247,7 @@ export class ProviderMnemonicReactNative
     return resp;
   }
 
-  async signTypedData(
-    hdPath: string,
-    typedData: TypedData
-  ): Promise<string> {
+  async signTypedData(hdPath: string, typedData: TypedData): Promise<string> {
     let response = '';
     try {
       const share = await getMnemonic(
@@ -270,8 +267,13 @@ export class ProviderMnemonicReactNative
         throw new Error('private_key_not_found');
       }
 
-      const {domainSeparatorHex, hashStructMessageHex} = prepareHashedEip712Data(typedData);
-      const concatHash = hexConcat(['0x1901', domainSeparatorHex, hashStructMessageHex]);
+      const {domainSeparatorHex, hashStructMessageHex} =
+        prepareHashedEip712Data(typedData);
+      const concatHash = hexConcat([
+        '0x1901',
+        domainSeparatorHex,
+        hashStructMessageHex,
+      ]);
       response = await sign(privateKey, concatHash);
       this.emit('signTypedData', true);
     } catch (e) {
