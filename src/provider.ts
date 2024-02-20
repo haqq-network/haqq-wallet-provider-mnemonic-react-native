@@ -12,6 +12,7 @@ import {
   ProviderInterface,
   TransactionRequest,
   TypedData,
+  calcTypedDataSignatureV,
 } from '@haqq/provider-base';
 import {
   accountInfo,
@@ -282,7 +283,7 @@ export class ProviderMnemonicReactNative
       }
     }
 
-    return response;
+    return calcTypedDataSignatureV(response);
   }
 
   /**
