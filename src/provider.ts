@@ -1,6 +1,7 @@
 import {hexConcat} from '@ethersproject/bytes';
 import {serialize, UnsignedTransaction} from '@ethersproject/transactions';
 import {
+  calcTypedDataSignatureV,
   compressPublicKey,
   hexStringToByteArray,
   joinSignature,
@@ -282,7 +283,7 @@ export class ProviderMnemonicReactNative
       }
     }
 
-    return response;
+    return calcTypedDataSignatureV(response);
   }
 
   /**
